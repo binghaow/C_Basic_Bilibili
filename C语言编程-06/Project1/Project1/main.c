@@ -1,22 +1,18 @@
 ﻿#define  _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
-void test(void)
-{
-	printf("hehe\n");
-}
-
-void check_sys()
+int check_sys()
 {
 	int a = 0x11223344;
 	char *pa = &a;
 	if (*pa == 0x11)
 	{
-		printf("大端");
+		return 0;
+		
 	}
 	else if (*pa == 0x44)
 	{
-		printf("小端");
+		return 1;
 	}
 
 }
@@ -32,6 +28,14 @@ int main()
 	////11111111111111111111111111110110 FF FF FF F6
 
 
-	check_sys();
+	int ret = check_sys();
+	if (check_sys)
+	{
+		printf("小端");
+	}
+	else
+	{
+		printf("大端");
+	}
 	return 0; 
 }
