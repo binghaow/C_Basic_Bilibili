@@ -1,21 +1,17 @@
 ﻿#define  _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <Windows.h>
+#include <float.h>
 
 int check_sys()
 {
-	int a = 0x11223344;
+	int a = 1;
 	char *pa = &a;
-	if (*pa == 0x11)
-	{
-		return 0;
-		
-	}
-	else if (*pa == 0x44)
-	{
-		return 1;
-	}
+	//if *pa == 1 little end, if *pa == 0 big end
+	return *pa;
 
 }
+unsigned char i = 0;
 int main()
 {
 	//int a = 20;
@@ -27,15 +23,20 @@ int main()
 	////11111111111111111111111111110101 FF FF FF F5
 	////11111111111111111111111111110110 FF FF FF F6
 
+	
 
 	int ret = check_sys();
 	if (check_sys)
 	{
-		printf("小端");
+		printf("小端\n");
 	}
 	else
 	{
-		printf("大端");
+		printf("大端\n");
 	}
+
+	
+
+
 	return 0; 
 }

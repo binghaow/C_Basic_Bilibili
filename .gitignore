@@ -50,5 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-/C语言编程-06/Project1/.vs/Project1/v15
-/C语言编程-06/Project1/Project1/Debug
+*/Project1/.vs/Project1/v15
+*/Project1/Project1/Debug
+*.vcxproj
+*.user
+*.filters
+*.sln
