@@ -1,38 +1,38 @@
 ﻿#define  _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
-//参数是数组的形式
-void print1(int arr[3][5], int x, int y)
-{
-	int i = 0;
-	int j = 0;
-	for (i = 0; i < x; i++)
-	{
-		for (j = 0; j < y; j++)
-		{
-			printf("%d ", arr[i][j]);
-		}
-		printf("\n");
-	}
-}
+////参数是数组的形式
+//void print1(int arr[3][5], int x, int y)
+//{
+//	int i = 0;
+//	int j = 0;
+//	for (i = 0; i < x; i++)
+//	{
+//		for (j = 0; j < y; j++)
+//		{
+//			printf("%d ", arr[i][j]);
+//		}
+//		printf("\n");
+//	}
+//}
+//
+////参数是指针的形式
+//void print2(int(*p)[5], int x, int y)
+//{
+//	int i = 0;
+//	for (i = 0; i < x; i++)
+//	{
+//		int j = 0;
+//		for (j = 0; j < y; j++)
+//		{
+//			printf("%d ", *(*(p + i) + j));
+//		}
+//		printf("\n");
+//	}
+//}
 
-//参数是指针的形式
-void print2(int(*p)[5], int x, int y)
-{
-	int i = 0;
-	for (i = 0; i < x; i++)
-	{
-		int j = 0;
-		for (j = 0; j < y; j++)
-		{
-			printf("%d ", *(*(p + i) + j));
-		}
-		printf("\n");
-	}
-}
-
-int main()
-{
+//int main()
+//{
 	////1, 字符指针
 
 	/*char ch = 'w';
@@ -69,51 +69,129 @@ int main()
 	//	printf("\n");
 	//}
 
-	// 3.数组指针
-	//int* p = NULL; //指向整型的指针， 存放整型的地址
-	//char* pc = NULL; //指向字符的指针，存放字符的地址
-	////指向数组的指针，存放数组的地址
-	////arr - 首元素地址
-	////&arr[0] - 首元素地址
-	////&arr - 数组的地址
-	//int arr[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-	//int(*parr)[10] = &arr; //parr是指向数组的指针, 注意：int* parr[10]是数组指针，因为[]比*优先与p结合
-	//
-	////char* carr[5];
-	////char* (*pa)[5] = &arr;
-	//// 3.1数组指针的使用
-	///*int i = 0;
-	//for (i = 0; i < 10; i++)
-	//{
-	//	printf("%d ", (*parr)[i]);
-	//}
-	//printf("\n");*/
-	///*int i = 0;
-	//for (i = 0; i < 10; i++)
-	//{
-	//	printf("%d ", *(*parr + i));
-	//}*/
+	//// 3.数组指针
+	////int* p = NULL; //指向整型的指针， 存放整型的地址
+	////char* pc = NULL; //指向字符的指针，存放字符的地址
+	//////指向数组的指针，存放数组的地址
+	//////arr - 首元素地址
+	//////&arr[0] - 首元素地址
+	//////&arr - 数组的地址
+	////int arr[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	////int(*parr)[10] = &arr; //parr是指向数组的指针, 注意：int* parr[10]是数组指针，因为[]比*优先与p结合
+	////
+	//////char* carr[5];
+	//////char* (*pa)[5] = &arr;
+	////// 3.1数组指针的使用
+	/////*int i = 0;
+	////for (i = 0; i < 10; i++)
+	////{
+	////	printf("%d ", (*parr)[i]);
+	////}
+	////printf("\n");*/
+	/////*int i = 0;
+	////for (i = 0; i < 10; i++)
+	////{
+	////	printf("%d ", *(*parr + i));
+	////}*/
 
-	// 我们发现数组指针对于一维数组很不方便，实际上数组指针应该用于二维数组
-	int arr[3][5] = { {1, 2, 3, 4, 5} , { 2, 3, 4, 5, 6}, {3, 4, 5, 6, 7} };
-	print1(arr, 3, 5);
-	print2(arr, 3, 5); //a
+	//// 我们发现数组指针对于一维数组很不方便，实际上数组指针应该用于二维数组
+	//int arr[3][5] = { {1, 2, 3, 4, 5} , { 2, 3, 4, 5, 6}, {3, 4, 5, 6, 7} };
+	//print1(arr, 3, 5);
+	//print2(arr, 3, 5); //a
+    //return 0;
+//}
 
+	//4,数组参数，指针参数
+//void test(int arr[]) //ok? ok 一维数组传参，可以省略元素个数
+//{}
+//void test(int arr[10]) //ok? ok
+//{}
+//void test(int *arr) //ok? ok
+//{} 
+//void test2(int *arr[20]) //ok? ok 20可以省略
+//{}
+//void test2(int **arr) //ok? ok 二级指针
+//{}
+//
+//int main(){
+//	int arr[10] = { 0 };
+//	int *arr2[20] = { 0 };
+//	test(arr);
+//	test2(arr2);
+//
+//
+//	return 0;
+//}
 
+//	//5， 二维数组传参
+//void test(int arr[3][5]){} //ok, 完全一致
+//void test1(int arr[][5]){}
+////void test2(int arr[3][]){} //not ok, 不能省略列
+////void test3(int *arr){} // not ok, 二维数组名代表一维数组的地址，类型不是int,而是int[] 
+////void test4(int **arr){} // not ok, 一维数组的地址的类型不是二级指针
+//void test5(int (*arr)[5]) {} //ok, 指针，指向数组
+//int main()
+//{
+//	int arr[3][5] = { 0 };
+//	test(arr);
+//	test1(arr);
+//	//test2(arr);
+//	//test3(arr);
+//	//test4(arr);
+//	test5(arr);
+//
+//	return 0;
+//}
 
+//	/*6，函数指针 - 存放函数地址的指针*/
+//
+//int Add(int x, int y)
+//{
+//	int z = 0;
+//	z = x + y;
+//	return z;
+//}
+//int main()
+//{
+//	int a = 10;
+//	int b = 20;
+//	int(*p)(int, int) = Add; //记得括号
+//
+//	printf("%d\n", Add(a, b));
+//	printf("%p\n", &Add);
+//	printf("%p\n", Add); //和&Add一样
+//	printf("%d\n", (*p)(20, 30));
+//  printf("%d\n", p(20, 30));
+//	return 0;
+//}
 
+	/*6，函数指针 - 存放函数地址的指针*/
 
+//int Add(int x, int y)
+//{
+//	int z = 0;
+//	z = x + y;
+//	return z;
+//}
+//int main()
+//{
+//	int a = 10;
+//	int b = 20;
+//	int(*p)(int, int) = Add; //记得括号
+//
+//	printf("%d\n", Add(a, b));
+//	printf("%p\n", &Add);
+//	printf("%p\n", Add); //和&Add一样
+//	printf("%d\n", (*p)(20, 30));
+//	return 0;
+//}
 
-
-
-
-
-
-
-
-
-
+char* my_strcpy(char* dest, const char* src) {}
+int main()
+{
+	//1，写一个函数指针pf，能够指向my_strcpy
+	char* (*pf)(char*, const char*) = my_strcpy;
+	//2，写一个函数指针数组pfArr，能够存放四个my_strcpy的地址
+	char* (*pfarr[4])(char*, const char*) = { my_strcpy };
 	return 0;
-
-
-}
+} 
