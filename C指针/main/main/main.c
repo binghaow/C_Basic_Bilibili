@@ -1,6 +1,9 @@
 ﻿#define  _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
+#include <stdlib.h>
+
+
 ////参数是数组的形式
 //void print1(int arr[3][5], int x, int y)
 //{
@@ -185,13 +188,195 @@
 //	printf("%d\n", (*p)(20, 30));
 //	return 0;
 //}
+//
+//char* my_strcpy(char* dest, const char* src) {}
+//int main()
+//{
+//	//1，写一个函数指针pf，能够指向my_strcpy
+//	char* (*pf)(char*, const char*) = my_strcpy;
+//	//2，写一个函数指针数组pfArr，能够存放四个my_strcpy的地址
+//	char* (*pfarr[4])(char*, const char*) = { my_strcpy };
+//
+//
+//	return 0;
+//} 
 
-char* my_strcpy(char* dest, const char* src) {}
+/*7，指向函数指针数组的指针*/
+//int add(int x, int y){ return 1; }
+//int sub(int x, int y){ return 1; }
+//int mul(int x, int y){ return 1; }
+//int div(int x, int y){ return 1; }
+//
+//int main()
+//{
+//	int(*pfun[4])(int, int) = { add, sub, mul, div }; //函数指针数组
+//	int (*(*ppfun)[4])(int, int); //指向函数指针数组的指针
+//	return 0;
+//}
+
+///*7，回调函数以及模板*/
+//
+//void print(char *str)
+//{
+//	printf("hehe:%s", str);
+//}
+//
+//void test( void (*p)(char *str) )
+//{
+//	printf("test\n");
+//	p("bit");
+//}
+//
+//int main()
+//{
+//	test(print );
+//	return 0;
+int cmp_int(const void* a, const void* b)
+{
+	return *(int*)a - *(int*)b;
+}
+void qsort_int()
+{
+	int arr[] = { 1,3,5,7,9,2,4,6,8,0 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+
+	printf("before qsort_int\n");
+	int i = 0;
+	for (i = 0; i < sz; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+
+	qsort(arr, sz, sizeof(arr[0]), cmp_int);	
+
+	printf("after qsort_int\n");
+	for (i = 0; i < sz; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+
+}
+int cmp_float(const void* a, const void* b)
+{
+	return (int)(*(float*)a - *(float*)b);
+}
+void qsort_float()
+{
+	float arr[] = { 1.0,3.0,5.0,7.0,9.0,2.0,4.0,6.0,8.0,0.0 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+
+	printf("before qsort_float\n");
+	int i = 0;
+	for (i = 0; i < sz; i++)
+	{
+		printf("%f ", arr[i]);
+	}
+	printf("\n");
+
+	qsort(arr, sz, sizeof(arr[0]), cmp_float);
+
+	printf("after qsort_float\n");
+	for (i = 0; i < sz; i++)
+	{
+		printf("%f ", arr[i]);
+	}
+	printf("\n");
+
+}
+struct Stu
+{
+	char name[20];
+	int age;
+};
+void printStu(struct Stu stu)
+{
+	printf("Name: %s, Age: %d\n", stu.name, stu.age);
+}
+int cmp_stu(const void* e1, const void* e2)
+{
+	return ((struct Stu*)e1)->age - ((struct Stu*)e2)->age;
+}
+void qsort_stu()
+{
+	struct Stu arr[] = { "Simon", 18, "Kevin", 29, "Ted", 23 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+
+	printf("before qsort_stu\n");
+	int i = 0;
+	for (i = 0; i < sz; i++)
+	{
+		printStu(arr[i]);
+	}
+	printf("\n");
+
+	qsort(arr, sz, sizeof(arr[0]), cmp_stu);
+
+	printf("after qsort_stu\n");
+	for (i = 0; i < sz; i++)
+	{
+		printStu(arr[i]);
+	}
+	printf("\n");
+
+}
+void swap(char* buf1, char* buf2, int width)
+{
+	//对于泛型交换，我们按字节交换
+	int i = 0;
+	for (i = 0; i < width; i++)
+	{
+		char temp = *buf1;
+		*buf1 = *buf2;
+		*buf2 = temp;
+		buf1++;
+		buf2++;
+	}
+	
+}
+//实现bubble_sort函数的程序员，不知道未来排序的数据类型
+//也不知道待比较两个元素的类型， 所以使用void* 来接受泛型
+void bubbleSort(void* base, int sz, int width, int (*cmp)(const void* e1, const void* e2))
+{
+	int i = 0;
+	for (i = sz; i > 0; i--)
+	{
+		int j = 0;
+		for (j = 0; j < i - 1; j++)
+		{
+			if (cmp((char*)base+j*width , (char*)base +(j+1)*width) > 0)
+			{
+				//因为不知道被交换元素的类型，所以抽离出swap函数
+				swap((char*)base + j * width, (char*)base + (j + 1)*width, width);
+ 			}
+		}
+	}
+}
+
+void bubbleSort_stu()
+{
+	struct Stu arr[] = { "Simon", 18, "Kevin", 29, "Ted", 23 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	bubbleSort(arr, sz, sizeof(arr[0]), cmp_stu);
+}
+
+void bubbleSort_int()
+{
+	int arr[] = { 1,3,5,7,9,2,4,6,8,0 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	bubbleSort(arr, sz, sizeof(arr[0]), cmp_int);
+}
 int main()
 {
-	//1，写一个函数指针pf，能够指向my_strcpy
-	char* (*pf)(char*, const char*) = my_strcpy;
-	//2，写一个函数指针数组pfArr，能够存放四个my_strcpy的地址
-	char* (*pfarr[4])(char*, const char*) = { my_strcpy };
+	//qsort_int();
+	//qsort_float();
+	//qsort_stu();
+	/*bubbleSort_int();*/
+	//bubbleSort_stu();
+	
+	
+
+
 	return 0;
-} 
+}
