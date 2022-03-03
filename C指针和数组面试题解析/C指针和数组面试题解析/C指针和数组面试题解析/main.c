@@ -36,5 +36,39 @@ int main()
 	printf("%d\n", strlen(&a1 + 1));     //随机-6，但是从下一个数组开始
 	printf("%d\n", strlen(&a1[0] + 1));  //随机-1，但是从下一个元素开始
 
+	char a2[] = { "abcdef" };
+	printf("%d\n", sizeof(a2));          //7-sizeof（数组名）-计算的是数组总大小
+	printf("%d\n", sizeof(a2 + 0));      //4/8-a2不是单独放在sizeof中，所以a2是首元素地址
+	printf("%d\n", sizeof(*a2));         //1-数组名是首元素地址，*a2就是首元素
+	printf("%d\n", sizeof(a2[1]));       //1-第二个元素大小
+	printf("%d\n", sizeof(&a2));         //4/8-&a1取出的是数组地址
+	printf("%d\n", sizeof(&a2 + 1));     //4/8-&a1得到数组的地址，偏移一个数组后还是地址
+	printf("%d\n", sizeof(&a2[0] + 1));  //4/8-第二个元素的地址
+
+	printf("%d\n", strlen(a2));          //6-sizeof（数组名）-计算的是数组总大小
+	printf("%d\n", strlen(a2 + 0));      //6-a2不是单独放在sizeof中，所以a2是首元素地址
+	//printf("%d\n", strlen(*a2));         //err-数组名是首元素地址，*a2就是首元素
+	//printf("%d\n", strlen(a2[1]));       //err-第二个元素大小
+	printf("%d\n", strlen(&a2));         //6-&a2取出的是数组地址,数组指针，类型为char (*)[7]与strlen的输入const char*不同
+	printf("%d\n", strlen(&a2 + 1));     //随机-&a2得到数组的地址，偏移一个数组后还是地址
+	printf("%d\n", strlen(&a2[0] + 1));  //5-第二个元素的地址
+
+	char *p = "abcdef";
+	printf("%d\n", sizeof(p));           //4/8,p是指针
+	printf("%d\n", sizeof(p + 1));       //4/8, p依然是指针，指向b
+	printf("%d\n", sizeof(*p));          //1，p指向第一个元素
+	printf("%d\n", sizeof(p[0]));        //1, p指向第一个元素
+	printf("%d\n", sizeof(&p));          //4/8, p的地址
+	printf("%d\n", sizeof(&p + 1));      //4/8,p偏移后的地址
+	printf("%d\n", sizeof(&p[0] + 1));   //4/8,p偏移后的地址
+
+	printf("%d\n", strlen(p));           //6,
+	printf("%d\n", strlen(p + 1));       //5, p依然是指针，指向b
+	//printf("%d\n", strlen(*p));          //err，*p是第一个元素
+	//printf("%d\n", strlen(p[0]));        //err, *p是第一个元素
+	printf("%d\n", strlen(&p));          //随机值, p的地址
+	printf("%d\n", strlen(&p + 1));      //随机值,p偏移后的地址
+	printf("%d\n", strlen(&p[0] + 1));   //5,p偏移后的地址
+
 	return 0;
 }
