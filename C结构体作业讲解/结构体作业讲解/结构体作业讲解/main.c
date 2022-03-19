@@ -119,14 +119,125 @@ void leftRotate(char* arr, int k)
 //}
 //ABCDABCD一定是包含了所有旋转的组合
 
+//判断一个字符串是否由另一个字符串旋转得来
+//第二种方法，追加一个字符串, 如abcdef->abcdefabcdef，新字符串的子集包含所有旋转后的可能
+//int is_left_move(char* str1, char* str2)
+//{
+//	int len1 = strlen(str1);
+//	int len2 = strlen(str2);
+//	if (len1 != len2)
+//		return 0; //不能省略，防止abcdef和cdef被匹配上
+//	//1.在str1字符串中追加一个str1字符串
+//	//strcat(str1,str1) 自己给自己追加时不可以用这个函数，因为在赋值时会覆盖自己的/0导致无法终止
+//	//strncat
+//	strncat(str1, str1, 6); //abcdefabcdef
+//	//2.判断str2指向的字符串是否是str1指向的字符串的字串
+//	//strstr-找子串,如果找到，返回首字符在str1中的地址
+//	char * ret = strstr(str1, str2);
+//	if (ret == NULL)
+//		return 0;
+//	else
+//		return 1;
+//}
+//
+//int main()
+//{
+//	//int k = 2;
+//	//char arr[] = "ABCD";
+//	//char arr1[] = "BCDA";
+//	////leftRotate(arr, k);
+//	//printf("%s\n", arr);
+//	//printf("%d\n", isLeftMove(arr, arr1));
+//
+//	char arr1[30] = "abcdef"; //提前预留了空间用于复制字符串
+//	char arr2[] = "cdefab";
+//	int ret = is_left_move(arr1, arr2);
+//	if (ret == 1)
+//	{
+//		printf("Yes\n");
+//	}
+//	else
+//	{
+//		printf("No\n");
+//	}
+//	return 0;
+//}
+
+//杨氏矩阵
+//有一个数字矩阵，矩阵的每行从左到右是递增的，矩阵从上到下是递增的，请编写程序在这样的矩阵中查找某个数字是否存在
+//要求时间复杂度小于O(N)
+/*
+1 2 3               1 2 3
+4 5 6       or      2 3 4
+7 8 9               3 4 5
+*/
+
+//int FindNum(int arr[3][3], int k, int row, int col)
+//{
+//	//find the right left cornor of array
+//	int x = 0;
+//	int y = col - 1;
+//	while ((x < row) && (y >= 0))
+//	{
+//		if (arr[x][y] < k)
+//		{
+//			x++; //从待访问的矩阵中删除这一行
+//		}
+//		else if (arr[x][y] == k)
+//		{
+//			return 1;
+//		}
+//		else		//arr[x][y] < k
+//		{
+//			y--; //从待访问的矩阵中删除这一列
+//		}
+//	}
+//}
+
+//假设要求FindNum返回横纵坐标， 那么传参的时候要传入地址
+void FindNum(int arr[3][3], int k, int* px, int* py)
+{
+	//find the right left cornor of array
+	int x = 0;
+	int y = *py - 1;
+	while ((x <= *py - 1) && (y >= 0))
+	{
+		if (arr[x][y] < k)
+		{
+			x++; //从待访问的矩阵中删除这一行
+		}
+		else if (arr[x][y] == k)
+		{
+			*px = x;
+			*py = y;
+			return;
+		}
+		else		//arr[x][y] < k
+		{
+			y--; //从待访问的矩阵中删除这一列
+		}
+	}
+	x = y = -1;
+	return;
+}
 
 int main()
 {
-	int k = 2;
-	char arr[] = "ABCD";
-	char arr1[] = "BCDA";
-	//leftRotate(arr, k);
-	printf("%s\n", arr);
-	printf("%d\n", isLeftMove(arr, arr1));
+	int arr[3][3] = { {1,2,3},{4,5,6},{7,8,9} };
+	int k = 7; //to be searched
+	int x = 3;
+	int y = 3;
+	//int ret = FindNum(arr, k, 3, 3);
+	FindNum(arr, k, &x, &y); 
+	//这个参数的设计叫做返回型参数，参数既有传入的作用，也有传出的作用
+
+	if (x != -1)
+	{
+		printf("Found at (%d,%d)\n", x, y);
+	}
+	else
+	{
+		printf("Not Found\n");
+	}
 	return 0;
 }
