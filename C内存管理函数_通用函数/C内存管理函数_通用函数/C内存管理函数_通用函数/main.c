@@ -115,15 +115,15 @@
 //
 //}
 
-//memset - 内存设置
-int main()
-{
-	char arr[10] = "";
-	memset(arr, '#', 10);
-	int i = 0;
-	for (i = 0; i < 10; i++)
-	{
-		printf("%c\t", arr[i]);
-	}
-	return 0;
-}
+////memset - 内存设置
+//int main()
+//{
+//	char arr[10] = "";
+//	memset(arr, '#', 10);
+//	int i = 0;
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%c\t", arr[i]);
+//	}
+//	return 0;
+//}
