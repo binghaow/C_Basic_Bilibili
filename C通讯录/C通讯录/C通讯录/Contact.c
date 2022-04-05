@@ -23,32 +23,79 @@ static int FindByName(const struct Contact* ps, char NameToSearch[MAX_NAME])
 
 void InitContact(struct Contact* ps)
 {
-	memset(ps->data, 0, sizeof(ps->data));
-	ps->size = 0; //设置通讯录最初为0个元素
+	//memset(ps->data, 0, sizeof(ps->data));
+	//ps->size = 0; //设置通讯录最初为0个元素
+	//初始化可以存放3个人的信息
+	ps->data = (struct PeoInfo*)malloc(DEFAULT_SZ * sizeof(struct PeoInfo));
+	//开辟完空间后要进行检查
+	if (ps->data == NULL)
+	{
+		return 0;
+	}
+	ps->capacity = DEFAULT_SZ;
+	ps->size = 0;
+}
+
+void CheckCapacity(struct Contact* ps)
+{
+	if (ps->size == ps->capacity)
+	{
+		//扩容
+		ps->capacity += 2;
+		struct PeoInfo* temp = realloc(ps->data, ps->capacity * sizeof(struct PeoInfo));
+		if (temp != NULL)
+		{
+			ps->data = temp;
+			printf("增容成功\n");
+		}
+		else
+		{
+			printf("增容失败\n");
+		}
+	}
 }
 
 void AddContact(struct Contact* ps)
 {
-	if (ps->size == MAX)
-	{
-		printf("通讯录已满，无法增加");
-	}
-	else
-	{
-		printf("请输入名字：>");
-		scanf("%s", ps->data[ps->size].name);
-		printf("请输入年龄：>");
-		scanf("%d", &ps->data[ps->size].age);
-		printf("请输入性别：>");
-		scanf("%s", ps->data[ps->size].sex);
-		printf("请输入电话：>");
-		scanf("%s", ps->data[ps->size].tele);
-		printf("请输入地址：>");
-		scanf("%s", ps->data[ps->size].address);
+	//检测当前通讯录的容量
+	//1， 如果满了，增容
+	//2， 如果不满，不做操作
+	CheckCapacity(ps);
+	//增加数据
+	printf("请输入名字：>");
+	scanf("%s", ps->data[ps->size].name);
+	printf("请输入年龄：>");
+	scanf("%d", &ps->data[ps->size].age);
+	printf("请输入性别：>");
+	scanf("%s", ps->data[ps->size].sex);
+	printf("请输入电话：>");
+	scanf("%s", ps->data[ps->size].tele);
+	printf("请输入地址：>");
+	scanf("%s", ps->data[ps->size].address);
 
-		ps->size++;
-		printf("添加成功\n");
-	}
+	ps->size++;
+	printf("添加成功\n");
+	//if (ps->size == ps->capacity)
+	//{
+	//	printf("通讯录已满，无法增加");
+	//	
+	//}
+	//else
+	//{
+	//	printf("请输入名字：>");
+	//	scanf("%s", ps->data[ps->size].name);
+	//	printf("请输入年龄：>");
+	//	scanf("%d", &ps->data[ps->size].age);
+	//	printf("请输入性别：>");
+	//	scanf("%s", ps->data[ps->size].sex);
+	//	printf("请输入电话：>");
+	//	scanf("%s", ps->data[ps->size].tele);
+	//	printf("请输入地址：>");
+	//	scanf("%s", ps->data[ps->size].address);
+
+	//	ps->size++;
+	//	printf("添加成功\n");
+	//}
 }
 
 void ShowContact(const struct Contact* ps)
@@ -157,6 +204,14 @@ void ModifyContact(struct Contact * ps)
 void SortContact(struct Contact *ps)
 {
 
+}
+
+void DestroyContact(struct Contact* ps)
+{
+	//注意ps是在栈空间创建的，不用free
+	assert(ps);
+	free(ps->data);
+	ps->data = NULL;
 }
 
 

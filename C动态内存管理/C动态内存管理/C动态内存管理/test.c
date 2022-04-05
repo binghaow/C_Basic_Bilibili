@@ -119,3 +119,81 @@
 //	}
 //	return 0;
 //}
+
+////柔性数组，结构体中的最后一个元素允许是变长数组，数组的大小是可以调整的
+//struct S
+//{
+//	int n;
+//	//int arr[];//柔性数组，写法1
+//	int arr[0];//柔性数组，写法2
+//};
+//
+//int main()
+//{
+//	//柔性数组的使用
+//	//struct S s;
+//	//printf("%d\n", sizeof(s));//4，柔性数组不包含在结构体内
+//	struct S* ps = (struct S*)malloc(sizeof(struct S)+5*sizeof(int));
+//	ps->n = 100;
+//	int i = 0;
+//	for (i = 0; i < 5; i++)
+//	{
+//		ps->arr[i] = i;//0 1 2 3 4
+//	}
+//	//增加柔性数组的长度
+//	struct S* ptr = realloc(ps, 44);
+//	if (ptr != NULL)
+//	{
+//		ps = ptr;
+//	}
+//	for (i = 5; i < 10; i++)
+//	{
+//		ps->arr[i] = i;
+//	}
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%d ", ps->arr[i]);
+//	}
+//
+//	return 0;
+//}
+
+//尝试使用动态开辟空间实现柔性数组?
+struct S
+{
+	int n;
+	int *arr;
+};
+
+int main()
+{
+	struct S*ps = (struct S*)malloc(sizeof(struct S));
+	ps->arr = (int *)malloc(5 * sizeof(int));
+	int i = 0;
+	for (i = 0; i < 5; i++)
+	{
+		ps->arr[i] = i;
+	}
+	for (i = 0; i < 5; i++)
+	{
+		printf("%d ", ps->arr[i]);
+	}
+	//调整大小
+	int *ptr = realloc(ps->arr, 10 * sizeof(int));
+	if (ptr != NULL)
+	{
+		ps->arr = ptr;
+	}
+	for (i = 5; i < 10; i++)
+	{
+		ps->arr[i] = i;
+	}
+	for (i = 0; i < 10; i++)
+	{
+		printf("%d ", ps->arr[i]);
+	}
+	free(ps->arr);
+	free(ps);
+	ps = NULL;
+	return 0;
+}
