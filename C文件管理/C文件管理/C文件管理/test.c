@@ -196,30 +196,97 @@
 //	printf("%d %f %s\n", temp.n, temp.score, temp.arr);
 //}
 
-//二进制读写fread, fwrite
-struct S
-{
-	char name[20];
-	int age;
-	double score;
-};
+////二进制读写fread, fwrite
+//struct S
+//{
+//	char name[20];
+//	int age;
+//	double score;
+//};
+//int main()
+//{
+//	//struct S s = { "张三", 20, 55.6 };
+//	struct S temp = { 0 };
+//	//FILE *pf = fopen("test.txt", "wb");
+//	FILE *pf = fopen("test.txt", "rb");
+//	if (pf == NULL)
+//	{
+//		return 0;
+//	}
+//	//二进制的形式写文件
+//	//fwrite(&s, sizeof(struct S), 1, pf);
+//	fread(&temp, sizeof(struct S), 1, pf);
+//	printf("%s %d %lf\n", temp.name, temp.age, temp.score);
+//
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+
+//int main()
+//{
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		return 0;
+//	}
+//	//1.定位文件指针-偏移
+//	//fseek(pf, -2, SEEK_END);
+//	fgetc(pf);
+//	int pos = ftell(pf);
+//	printf("%d\n", pos);
+//	//2.读取文件
+//	int ch = fgetc(pf);
+//	printf("%c\n", ch);
+//	fclose(pf);
+//	pf = NULL;
+//}
+
+//EOF
 int main()
 {
-	//struct S s = { "张三", 20, 55.6 };
-	struct S temp = { 0 };
-	//FILE *pf = fopen("test.txt", "wb");
-	FILE *pf = fopen("test.txt", "rb");
-	if (pf == NULL)
+	FILE* pfRead = fopen("test.txt", "r");
+	if (pfRead == NULL)
 	{
 		return 0;
 	}
-	//二进制的形式写文件
-	//fwrite(&s, sizeof(struct S), 1, pf);
-	fread(&temp, sizeof(struct S), 1, pf);
-	printf("%s %d %lf\n", temp.name, temp.age, temp.score);
+	int ch = 0;
+	while ((ch = fgetc(pfRead)) != EOF)
+	{
+		putchar(ch);
+	}
+	if (ferror(pfRead))
+	{
+		printf("error\n");
+	}
+	else if (feof(pfRead))
+	{
+		printf("end of file\n");
+	}
+	printf("%d\n", fgetc(pfRead)); //-1 EOF
+	fclose(pfRead);
+	pfRead = NULL;
 
-	//关闭文件
-	fclose(pf);
-	pf = NULL;
-	return 0;
+	//EOF;
+
 }
+
+////perror
+//int main()
+//{
+//	//strerror - 把错误码对应的错误信息的字符串地址返回
+//	//printf("%s\n", strerror(errno));
+//
+//	//perror
+//	FILE* pf = fopen("test2.txt", "r");
+//	if (pf == NULL)
+//	{
+//		perror("Open file test2 failed");
+//		return 0;
+//	}
+//
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
